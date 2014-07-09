@@ -26,4 +26,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "shell", path: "vagrant_setup.sh"
 
+  config.vm.provider :virtualbox do |vb|
+    vb.gui = true
+  end
 end
+

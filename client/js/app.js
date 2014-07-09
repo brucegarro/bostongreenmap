@@ -1,4 +1,4 @@
-define(['backbone', 'marionette', 'build/templates'], function(Backbone, Marionette, templates) {
+define(['backbone', 'marionette', 'build/templates', 'masonry'], function(Backbone, Marionette, templates, Masonry) {
     var app = new Marionette.Application(),
         router;
 
@@ -12,12 +12,34 @@ define(['backbone', 'marionette', 'build/templates'], function(Backbone, Marione
     var Park = Backbone.Model.extend({
         initialize: function (params) {
           this.park_slug = params.park_slug
+			try {
+				this.thumbnail_src = this.attributes.images[0].src;
+			} catch (e) {
+				this.thumbnail_src = '';
+			}
+			if (typeof params.images === 'undefined') {
+				params.images = [];
+			}
+			if (params.images.length <= 0) {
+				var img = new Image();
+				img.src = 'http://www.thepuppyapi.com/puppy?format=src&' + Math.random();
+				params.images[0] = {
+					// src: 'http://fc04.deviantart.net/fs70/i/2012/102/4/9/beagle_by_ninaandbeagle-d4vvx4u.jpg'
+					src: img.src
+				}
+			}
+/*
+		  console.log(params);
+		  console.log(this.images);
+console.log(this.name);
+console.log(this.owner);
+console.log(this);
+*/
         },
         defaults: {
             'title': ''
         },
         url: function() {
-            console.log("SOS");
             return window.location.origin + '/parks/search/?slug=' + this.park_slug;
         },
         parse: function (response) {
@@ -155,7 +177,8 @@ define(['backbone', 'marionette', 'build/templates'], function(Backbone, Marione
         template: templates['templates/results.hbs'],
         itemView: ResultItemView,
         tagname: 'div',
-        className: 'results'
+        className: 'results',
+		id: 'results'
     });
 
 
@@ -189,6 +212,12 @@ define(['backbone', 'marionette', 'build/templates'], function(Backbone, Marione
             var results = new ParksCollection({'queryString': queryString});
             results.fetch({'success': function() {
                 app.getRegion('mainRegion').show(new ResultsView({'collection': results}));
+				var container = document.querySelector('#results');
+				var msnry = new Masonry(container, {
+					columnWidth: 200,
+					itemSelector: '.result-item'
+				});
+
             }});
         },
         park: function (park_slug) {

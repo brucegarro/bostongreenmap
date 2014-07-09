@@ -19,7 +19,11 @@ requirejs.config({
         },
         page: {
             exports: 'page'
-        }
+        },
+		masonry: {
+            deps: ['jquery'],
+			exports: 'Masonry'
+		}
     },
     baseUrl: '/static',
     paths: {
@@ -28,6 +32,7 @@ requirejs.config({
         backbone: 'lib/backbone-1.1.0.min',
         marionette: 'lib/backbone.marionette-1.5.1.min',
         handlebars: 'lib/handlebars-runtime.1.3.0.min',
+        masonry: 'lib/masonry-3.1.5.min',
         js: 'js',
         build: 'build'
     }
