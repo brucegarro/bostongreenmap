@@ -20,10 +20,10 @@ requirejs.config({
         page: {
             exports: 'page'
         },
-		masonry: {
+        masonry: {
             deps: ['jquery'],
-			exports: 'Masonry'
-		},
+            exports: 'Masonry'
+        },
         bootstrap: {
             deps: ['jquery']
         }
