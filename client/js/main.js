@@ -23,7 +23,10 @@ requirejs.config({
 		masonry: {
             deps: ['jquery'],
 			exports: 'Masonry'
-		}
+		},
+        bootstrap: {
+            deps: ['jquery']
+        }
     },
     baseUrl: '/static',
     paths: {
@@ -34,7 +37,8 @@ requirejs.config({
         handlebars: 'lib/handlebars-runtime.1.3.0.min',
         masonry: 'lib/masonry-3.1.5.min',
         js: 'js',
-        build: 'build'
+        build: 'build',
+        bootstrap: 'lib/bootstrap.min'
     }
 });
 

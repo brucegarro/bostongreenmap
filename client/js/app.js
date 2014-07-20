@@ -1,6 +1,10 @@
-define(['backbone', 'marionette', 'build/templates', 'masonry'], function(Backbone, Marionette, templates, Masonry) {
+define(['backbone', 'marionette', 'build/templates', 'bootstrap', 'masonry'], function(Backbone, Marionette, templates) {
     var app = new Marionette.Application(),
         router;
+
+    $('.carousel').carousel({
+        interval: 2000
+    });
 
     app.addRegions({
         navRegion: '#header',
@@ -122,7 +126,6 @@ console.log(this);
     var SearchView = Marionette.ItemView.extend({
         template:templates['templates/search.hbs'],
         tagName: 'div',
-        className: 'finder',
         events: {
             'click .gobutton': 'doSearch'
         },
