@@ -1,4 +1,17 @@
-define(['backbone', 'marionette', 'build/templates', 'bootstrap', 'masonry'], function(Backbone, Marionette, templates) {
+define([
+    'backbone',
+    'marionette',
+    'build/templates',
+    'masonry',
+    'imagesloaded',
+    'bootstrap',
+], function(
+    Backbone,
+    Marionette,
+    templates,
+    Masonry,
+    imagesLoaded
+) {
     var app = new Marionette.Application(),
         router;
 
@@ -12,33 +25,63 @@ define(['backbone', 'marionette', 'build/templates', 'bootstrap', 'masonry'], fu
         footerRegion: '#footer'
     });
 
+    (function(imagesLoaded) {
+        // Masonry + imagesLoaded, iteratively reveal items
+        $.fn.masonryImagesReveal = function (masonryObject, $items) {
+            // var msnry = this.data('masonry');
+            var itemSelector = masonryObject.options.itemSelector;
+            // hide by default
+            $items.hide();
+            // append to container
+            this.append($items);
+            var imgLoad = imagesLoaded('#results');
+            imgLoad.on('progress', function (instance, image) {
+                if (image.isLoaded) {
+                    // get item
+                    // image is imagesLoaded class, not <img>, <img> is image.img
+                    var $item = $(image.img).parents(itemSelector);
+                    // un-hide item
+                    $item.show();
+                    // masonry does its thing
+                    masonryObject.appended($item);
+                }
+            });
+            return this;
+        };
+    })(imagesLoaded);
+
     // Models
     var Park = Backbone.Model.extend({
         initialize: function (params) {
           this.park_slug = params.park_slug
-			try {
-				this.thumbnail_src = this.attributes.images[0].src;
-			} catch (e) {
-				this.thumbnail_src = '';
-			}
-			if (typeof params.images === 'undefined') {
-				params.images = [];
-			}
-			if (params.images.length <= 0) {
-				var img = new Image();
-				img.src = 'http://www.thepuppyapi.com/puppy?format=src&' + Math.random();
-				params.images[0] = {
-					// src: 'http://fc04.deviantart.net/fs70/i/2012/102/4/9/beagle_by_ninaandbeagle-d4vvx4u.jpg'
-					src: img.src
-				}
-			}
-/*
-		  console.log(params);
-		  console.log(this.images);
-console.log(this.name);
-console.log(this.owner);
-console.log(this);
-*/
+            try {
+                this.thumbnail_src = this.attributes.images[0].src;
+            } catch (e) {
+                this.thumbnail_src = '';
+            }
+            if (typeof params.images === 'undefined') {
+                params.images = [];
+            }
+            if (params.images.length <= 0) {
+                var img = new Image();
+                img.addEventListener('load', function() {
+                    // console.log('img load', this);
+                }, false);
+                img.addEventListener('error', function() {
+                    // console.log('img error', this);
+                }, false);
+                img.src = 'http://www.thepuppyapi.com/puppy?format=src&' + Math.random();
+                params.images[0] = {
+                    src: img.src
+                }
+                /*
+                var src = 'http://www.thepuppyapi.com/puppy?format=src&' + Math.random();
+                params.images[0] = {
+                    // src: img.src
+                    src: src
+                }
+                */
+            }
         },
         defaults: {
             'title': ''
@@ -212,16 +255,24 @@ console.log(this);
             app.getRegion('mainRegion').show(new ContactView());
         },
         results: function(queryString) {
+            function applyMasonry() {
+            }
             var results = new ParksCollection({'queryString': queryString});
             results.fetch({'success': function() {
+            console.log('++++++');
                 app.getRegion('mainRegion').show(new ResultsView({'collection': results}));
-				var container = document.querySelector('#results');
-				var msnry = new Masonry(container, {
-					columnWidth: 200,
-					itemSelector: '.result-item'
-				});
-
+                // var container = document.querySelector('#results');
+                var $container = $('#results');
+                debugger;
+                var msnry = new Masonry('#results', {
+                // $container.masonry({
+                    columnWidth: 200,
+                    itemSelector: '.result-item'
+                });
+                // container.masonryImagesReveal($('.result-item'));
+                $container.masonryImagesReveal(msnry, $('.result-item'));
             }});
+            results.fetch();
         },
         park: function (park_slug) {
             console.log("fired!");

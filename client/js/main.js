@@ -21,8 +21,11 @@ requirejs.config({
             exports: 'page'
         },
         masonry: {
-            deps: ['jquery'],
             exports: 'Masonry'
+        },
+        // imagesLoaded for Masonry
+        imagesloaded: {
+            exports: 'imagesloaded'
         },
         bootstrap: {
             deps: ['jquery']
@@ -36,6 +39,7 @@ requirejs.config({
         marionette: 'lib/backbone.marionette-1.5.1.min',
         handlebars: 'lib/handlebars-runtime.1.3.0.min',
         masonry: 'lib/masonry-3.1.5.min',
+        imagesloaded: 'lib/imagesloaded.pkgd.min',
         js: 'js',
         build: 'build',
         bootstrap: 'lib/bootstrap.min'
