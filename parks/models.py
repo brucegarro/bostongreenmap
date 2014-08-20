@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.gis.db import models
+from django.contrib.gis.measure import D
 from django.db.utils import IntegrityError
 from django.db import transaction
 from django.template.defaultfilters import slugify
@@ -238,6 +239,12 @@ class Park(models.Model):
             'owner': self.parkowner.name,
             'change_url': change_url
         }
+
+    #def nearest_parks_by_neighborhoods(self):
+    #    return Park.objects.filter(neighborhoods__in=self.neighborhoods.all());
+
+    def nearest_parks_by_distance(self,distance_in_miles):
+        return Park.objects.filter(geometry__distance_lt=(self.geometry, D(mi=distance_in_miles)));
 
     def save(self, *args, **kwargs):
 
