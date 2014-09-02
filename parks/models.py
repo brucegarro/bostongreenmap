@@ -245,6 +245,9 @@ class Park(models.Model):
 
     def nearest_parks_by_distance(self,distance_in_miles):
         return Park.objects.filter(geometry__distance_lt=(self.geometry, D(mi=distance_in_miles)));
+    
+    def recommended_parks(self):
+        return self.nearest_parks_by_distance(0.25).filter(parktype=self.parktype);
 
     def save(self, *args, **kwargs):
 
