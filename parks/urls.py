@@ -19,5 +19,8 @@ urlpatterns = patterns('parks.views',
 
     # nearby parks
     url(r'^(?P<park_id>\d+)/nearby_parks/$', 'get_nearby_parks', name='get_nearby_parks'),
+
+    # recommended parks
+    url(r'^(?P<park_id>\d+)/recommended_parks/$', 'get_recommended_parks', name='get_recommended_parks'),
  
 )
