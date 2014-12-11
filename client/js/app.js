@@ -15,10 +15,6 @@ define([
     var app = new Marionette.Application(),
         router;
 
-    $('.carousel').carousel({
-        interval: 2000
-    });
-
     app.addRegions({
         navRegion: '#header',
         mainRegion: '#content-area',
@@ -28,15 +24,19 @@ define([
     (function(imagesLoaded) {
         // Masonry + imagesLoaded, iteratively reveal items
         $.fn.masonryImagesReveal = function (masonryObject, $items) {
+            console.log($items);
             // var msnry = this.data('masonry');
             var itemSelector = masonryObject.options.itemSelector;
             // hide by default
             $items.hide();
+            // debugger;
+            // $items.remove();
             // append to container
-            this.append($items);
+            // this.append($items);
             var imgLoad = imagesLoaded('#results');
             imgLoad.on('progress', function (instance, image) {
                 if (image.isLoaded) {
+                debugger;
                     // get item
                     // image is imagesLoaded class, not <img>, <img> is image.img
                     var $item = $(image.img).parents(itemSelector);
@@ -44,6 +44,7 @@ define([
                     $item.show();
                     // masonry does its thing
                     masonryObject.appended($item);
+                    // masonryObject.reveal($item);
                 }
             });
             return this;
@@ -216,6 +217,7 @@ define([
     });
 
     var ResultItemView = Marionette.ItemView.extend({
+    // var ResultItemView = Backbone.View.extend({
         template: templates['templates/resultItem.hbs']
     });
 
@@ -238,6 +240,9 @@ define([
             'parks/:park_slug/': 'park'
         },
         home: function() {
+            $('.carousel').carousel({
+                interval: 300
+            });
             var searchModel = new SearchModel();
             var searchView = 
             searchModel.once('sync', function() {
@@ -266,7 +271,7 @@ define([
                 debugger;
                 var msnry = new Masonry('#results', {
                 // $container.masonry({
-                    columnWidth: 200,
+                    columnWidth: 190,
                     itemSelector: '.result-item'
                 });
                 // container.masonryImagesReveal($('.result-item'));
@@ -275,7 +280,6 @@ define([
             results.fetch();
         },
         park: function (park_slug) {
-            console.log("fired!");
             var park = new Park({'park_slug': park_slug});
             park.fetch({'success': function() {
                 app.getRegion('mainRegion').show(new ParkView({'model': park }));

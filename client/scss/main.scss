@@ -1,9 +1,4 @@
 /*** Header ***/
-.header {
-    font-family: "Istok Web";
-    padding-top: 25px;
-    padding-left: 10%;
-}
 
 .logo {
     display: inline-block;
@@ -49,6 +44,9 @@
 .navlink {
   cursor: pointer;
   display: inline-block;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 /*** Search ***/
@@ -80,7 +78,10 @@
   background-color: rgb(156,180,40);
   padding-left: 10%;
   padding-top: 30px;
+  padding-bottom: 100px;
   position: relative;
+  max-width: 950px;
+  margin: 0 auto;
 }
 
 .twitter-container {
@@ -97,11 +98,11 @@
 
 .footer-url {
   margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .footer-right {
   right: 10%;
-  border: 1px solid black;
   display: inline-block;
   position: absolute;
 }
@@ -135,11 +136,11 @@ body {
 /*** CSS dump from redevelop ***/
 
 
-#bs-example-navbar-collapse-1 {
-  height: 100px;
-  top: 40px;
-  position: relative;
-}
+// #bs-example-navbar-collapse-1 {
+//   height: 100px;
+//   top: 40px;
+//   position: relative;
+// }
 
 .navbar-brand {
   display:inline-block;
@@ -154,8 +155,17 @@ body {
   position: absolute;
   z-index: 15;
   color: white;
-  margin: 5%;
-  padding: 2%;
+  padding: 15px;
+  top: 20px;
+  left: 20px;
+  max-width: 300px;
+  select {
+    width: 100%;
+  }
+}
+
+.select-width {
+  display: block;
 }
 
 .viewer {
@@ -165,6 +175,9 @@ body {
   margin-top: 25px;
 }
 
+h1 {
+  margin-top: 0px;
+}
 
 .container {
   float: left;
@@ -185,14 +198,35 @@ body {
   position: relative;
   display: inline-block;
 }
+
+.header {
+  font-family: "Istok Web";
+  max-width: 950px;
+  margin: 0 auto;
+  padding-top: 50px;
+  .navbar-default {
+    background-color: #ffffff;
+  }
+  .navbar {
+    border: 0px;
+  }
+}
+
+#carousel-example-generic {
+  position: relative;
+}
+
 .gobutton {
   cursor: pointer;
   display: inline-block;
-  padding: 3px;
+  padding: 8px 14px;
   font-family: "Domine";
   color: white;
   background-color: green;
   user-select: none;
+  font-size: 1.5em;
+  margin-top: 8px;
+  // float: right;
 }
 
 .carousel-image {
@@ -204,8 +238,8 @@ body {
 }
 
 .navbar-header {
-  height: 100px;
-  top: 40px;
+  // height: 100px;
+  // top: 40px;
   position: relative;
 }
 
@@ -221,6 +255,20 @@ body {
     height: 50px;
     top:0;
   }
+
+}
+
+@media (max-width: 400px) {
+  .floating-text {
+    position: relative;
+    max-width: 100%;
+
+  }
+}
+
+#content-area {
+  max-width: 950px;
+  margin: 0 auto;
 }
 
 /*****  Carousels ******/
@@ -237,8 +285,9 @@ body {
 	background-color: #aaa;
 }
 .result-item {
-	width: 25%;
-	/* width: 200px; */
+	display: none;
+	/* width: 25%; */
+	width: 190px;
 	float: left;
 }
 .result-item img {
@@ -246,6 +295,8 @@ body {
 	max-width: 100%;
 	width: 100%;
 }
-.footer {
-	height: 0;
+/*
+#footer {
+	display: none;
 }
+*/
